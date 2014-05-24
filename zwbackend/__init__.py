@@ -6,7 +6,7 @@ from flask import Flask, request, session, g, redirect, url_for, abort, \
 app = Flask(__name__)
 app.config.from_object(__name__)
 
-from zwbackend import purchase, item
+from zwbackend import purchase, item, category
 from ocr_reader import ReweReceiptReader
 
 app.config.update(dict(
@@ -45,6 +45,11 @@ def get_all_purchases():
 def get_purchases_by_month():
     pdict = purchase.get_purchases_by_month()
     return jsonify(pdict)
+
+@app.route('/purchase/<int:purchase_id>/category')
+def get_categories_of_purchase(purchase_id):
+    result = category.get_categories_of_purchase(purchase_id)
+    return jsonify(result)
 
 def do_ocr(filename):
     rreader = ReweReceiptReader(filename)
