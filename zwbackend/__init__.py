@@ -27,7 +27,8 @@ def get_all_purchases():
 
 @app.route('/shoppinglist', methods=['GET', 'POST'])
 def upload_image():
-    f = request.files['shoppinglist']
-    app.logger.debug(f)
-    f.save('uploads/' + f.filename)
+    im = request.form['image']
+    fh = open("imageToSave.png", "wb")
+    fh.write(im.decode('base64'))
+    fh.close()
     return "success", 200
