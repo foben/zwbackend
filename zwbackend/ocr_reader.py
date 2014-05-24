@@ -97,16 +97,16 @@ class ReweReceiptReader:
 
             if lastProduct is not None and re.match("[0-9]+ X [0-9]+,[0-9]{2}", line) is not None:
                 quantity = re.split(" ", line)[0]
-                items[lastProduct][0] = quantity
+                items[lastProduct][0] = int(quantity)
 
             else:
                 linePieces = re.split(" ", line)
-                product = linePieces[0]
+                product = re.split("[0-9]+,[0-9]{2}", line)[0]
 
-                if product == "SUMME":
+                if re.match("SUMME", product):
                     break
 
-                price = linePieces[1]
+                price = float(linePieces[-2].replace(",", "."))
                 items[product] = [1, price]
                 lastProduct = product
 
@@ -129,7 +129,7 @@ if __name__ == "__main__":
         print rr.getReceiptItems()
         print rr.getSum()"""
         rr = ReweReceiptReader("../receipts/kassenzettel11.png")
-        #rr.status()
+        rr.status()
         print rr.getStoreName()
         print rr.getReceiptItems()
     else:
