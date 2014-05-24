@@ -43,7 +43,10 @@ def get_purchases_by_month():
 
 @app.route('/ocr')
 def do_ocr():
-    rreader = ReweReceiptReader("uploads/upload.png")
+    #Uploaded file:
+    #rreader = ReweReceiptReader("uploads/upload.png")
+    #Dummy rewe file:
+    rreader = ReweReceiptReader("uploads/rewe.png")
     app.logger.debug("Receiptstring:")
     app.logger.debug(rreader.receiptString)
     valdict = {}
