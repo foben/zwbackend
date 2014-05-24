@@ -38,7 +38,9 @@ def get_all_purchases():
 
 @app.route('/ocr')
 def do_ocr():
-    rreader = ReweReceiptReader('zwbackend/savedimage.png')
+    rreader = ReweReceiptReader('savedimage.png')
+    app.logger.debug("Receiptstring:")
+    app.logger.debug(rreader.receiptString)
     valdict = {}
     valdict['store_name'] = rreader.getStoreName()
     valdict['items'] = rreader.getReceiptItems()
