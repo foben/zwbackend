@@ -26,6 +26,11 @@ def get_all_items():
     idict = item.get_all_items()
     return jsonify(idict)
 
+@app.route('/purchase/<int:purchase_id>')
+def get_items_for_purchase_view(purchase_id):
+    items = item.get_items_for_purchase_view(purchase_id)
+    return jsonify(items)
+
 @app.route('/purchase/<int:purchase_id>/items')
 def get_items_by_purchase_id(purchase_id):
     idict = item.get_items_of_purchase(purchase_id)
