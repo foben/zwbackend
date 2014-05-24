@@ -24,7 +24,7 @@ def get_items_of_purchase(purchase_id):
 def create_item(name, price, quantity, purchaseid):
     database = db.get_db()
     categoryid = category.get_categoryid_for_itemname(name)
-    app.logger.debug("Got Category {} for item {}".format(categoryid, name))
+    #app.logger.debug("Got Category {} for item {}".format(categoryid, name))
     cur = database.execute("""INSERT INTO item
                             (name, price, quantity, purchaseid, categoryid)
                             values

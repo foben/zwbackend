@@ -52,13 +52,14 @@ def get_categories_of_purchase(purchase_id):
     return jsonify(result)
 
 def do_ocr(filename):
+    app.logger.debug("Filename: {}".format(filename))
     rreader = ReweReceiptReader(filename)
     store = rreader.getStoreName()
     items = rreader.getReceiptItems()
     timestamp = rreader.getPurchaseDate()
-    app.logger.debug("Timestamp: {}".format(timestamp))
-    app.logger.debug("Store: {}".format(store))
-    app.logger.debug("items: {}".format(items))
+    #app.logger.debug("Timestamp: {}".format(timestamp))
+    #app.logger.debug("Store: {}".format(store))
+    #app.logger.debug("items: {}".format(items))
     purchase.create_purchase_from_zettel(timestamp, store, items) 
     return "success"
 
