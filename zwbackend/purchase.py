@@ -1,4 +1,4 @@
-from zwbackend import db
+from zwbackend import db, helper
 from zwbackend import app
 import datetime
 
@@ -29,7 +29,6 @@ def get_purchases_by_month():
         purchase_dict['yearmonth'] = datetime.datetime.fromtimestamp(purchase_dict['timestamp']).strftime('%Y-%m')
         purchase_dict['sum'] = str(purchase_dict['priceSum'])[:4].replace('.',',')
         del purchase_dict['timestamp']
-        del purchase_dict['priceSum']
         purchases.append(purchase_dict)
 
     pmap = {}
@@ -42,7 +41,8 @@ def get_purchases_by_month():
     rlist = []
     for yearmonth in pmap:
         ps = pmap[yearmonth]
-        rlist.append({'year': yearmonth[:4], 'month': yearmonth[-2:], 'purchases': ps})
+        psum = helper.to_string_price(sum([p['priceSum'] for p in ps]))
+        rlist.append({'year': yearmonth[:4], 'month': yearmonth[-2:], 'sum': psum, 'purchases': ps})
 
     return {'purchaseslist': rlist}
 

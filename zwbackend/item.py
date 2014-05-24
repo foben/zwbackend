@@ -1,9 +1,6 @@
-from zwbackend import db
+from zwbackend import db, helper
 from flask import abort
 import datetime
-
-def to_string_price(price):
-    return str(price)[:4].replace('.',',')
 
 def get_all_items():
     database = db.get_db()
@@ -50,9 +47,9 @@ def get_items_for_purchase_view(purchase_id):
 
     store = items[0]['store']
     date_time = datetime.datetime.fromtimestamp(items[0]['timestamp']).strftime('%d.%m.%Y %H:%M')
-    psum = to_string_price(sum([i['price'] for i in items]))
+    psum = helper.to_string_price(sum([i['price'] for i in items]))
 
     for item in items:
-        item['price'] = to_string_price(item['price'])
+        item['price'] = helper.to_string_price(item['price'])
 
     return {'store': store, 'datetime': date_time, 'sum': psum, 'items': items}
