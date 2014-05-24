@@ -46,12 +46,8 @@ def get_purchases_by_month():
     pdict = purchase.get_purchases_by_month()
     return jsonify(pdict)
 
-@app.route('/ocr')
-def do_ocr():
-    #Uploaded file:
-    #rreader = ReweReceiptReader("uploads/upload.png")
-    #Dummy rewe file:
-    rreader = ReweReceiptReader("uploads/rewe.png")
+def do_ocr(filename):
+    rreader = ReweReceiptReader(filename)
     store = rreader.getStoreName()
     items = rreader.getReceiptItems()
     timestamp = rreader.getPurchaseDate()
@@ -63,7 +59,7 @@ def do_ocr():
 
 @app.route('/test')
 def foo():
-    return purchase.create_purchase_from_zettel(12377444, "ALDI",["adsf"])
+    return do_ocr("uploads/rewe.png")
 
 @app.route('/shoppinglist', methods=['GET', 'POST'])
 def upload_image():
@@ -71,4 +67,4 @@ def upload_image():
     fh = open("uploads/upload.png", "wb")
     fh.write(im.decode('base64'))
     fh.close()
-    return do_ocr(), 200
+    return do_ocr("uploads/upload.png"), 200
