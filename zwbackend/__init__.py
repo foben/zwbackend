@@ -7,6 +7,7 @@ app = Flask(__name__)
 app.config.from_object(__name__)
 
 from zwbackend import purchase, item
+from ocr_reader import ReweReceiptReader
 
 app.config.update(dict(
     DATABASE=os.path.join(app.root_path, 'zw.db'),
@@ -35,10 +36,20 @@ def get_all_purchases():
     pdict = purchase.get_all_purchases()
     return jsonify(pdict)
 
+@app.route('/ocr')
+def do_ocr():
+    rreader = ReweReceiptReader('zwbackend/savedimage.png')
+    valdict = {}
+    valdict['store_name'] = rreader.getStoreName()
+    valdict['items'] = rreader.getReceiptItems()
+    valdict['receiptstr'] = rreader.receiptString
+    app.logger.debug(valdict)
+    return jsonify(valdict)
+
 @app.route('/shoppinglist', methods=['GET', 'POST'])
 def upload_image():
     im = request.form['image']
-    fh = open("imageToSave.png", "wb")
+    fh = open("savedimage.png", "wb")
     fh.write(im.decode('base64'))
     fh.close()
-    return "success", 200
+    return do_ocr(), 200
