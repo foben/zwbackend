@@ -16,3 +16,11 @@ def get_items_of_purchase(purchase_id):
     items = {}
     idict = {'itemlist': [ dict(row) for row in rows ]}
     return idict
+
+def create_item(name, price, quantity, purchaseid, categoryid):
+    database = db.get_db()
+    cur = database.execute("""INSERT INTO item
+                            (name, price, quantity, purchaseid, categoryid)
+                            values
+                            (?, ?, ?, ?, ?);""",
+                            [name, price, quantity, purchaseid, categoryid])

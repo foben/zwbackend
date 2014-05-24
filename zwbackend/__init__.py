@@ -54,7 +54,11 @@ def do_ocr():
     app.logger.debug("Store: {}".format(store))
     app.logger.debug("items: {}".format(items))
     purchase.create_purchase(timestamp, store, items) 
-    return "success", 200
+    return "success"
+
+@app.route('/test')
+def foo():
+    return purchase.create_purchase_from_zettel(12377444, "ALDI",["adsf"])
 
 @app.route('/shoppinglist', methods=['GET', 'POST'])
 def upload_image():

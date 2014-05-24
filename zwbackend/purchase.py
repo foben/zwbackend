@@ -1,4 +1,5 @@
 from zwbackend import db
+from zwbackend import app
 import datetime
 
 def get_all_purchases():
@@ -45,7 +46,40 @@ def get_purchases_by_month():
 
     return {'purchaseslist': rlist}
 
-def create_purchase(timestamp, store, items):
-    pass
+def get_store_by_name(storename):
+    database = db.get_db()
+    cur = database.execute(""" SELECT id
+                                FROM store
+                                WHERE store.name = ?
+                                """, [storename])
+    rows = [dict(row) for row in cur.fetchall()]
+    if len(rows) < 1:
+        return None
+    return rows[0]['id']
 
+def create_purchase_from_zettel(timestamp, storename, items):
+    app.logger.debug("Create purchase from zettel")
+    app.logger.debug("get store id for name '{}'".format(storename))
+    storeid = get_store_by_name(storename)
+    app.logger.debug("Returned Storeid: {}".format(storeid))
+    app.logger.debug("Create a purchase")
+    purchaseid = create_purchase(timestamp, storeid)
+    app.logger.debug("Returned Purchase Id: {}".format(purchaseid))
+    for item in items:
+        app.logger.debug(item)
+
+    return "foo"
+
+
+def create_purchase(timestamp, storeid):
+    database = db.get_db()
+    cur = database.execute("""INSERT INTO purchase
+                        (timestamp, storeid)
+                        values
+                        (?, ?);""",
+                        [timestamp, storeid])
+    purchaseid = cur.lastrowid
+    database.commit()
+    app.logger.debug("Inserted purchase: {}".format(purchaseid))
+    return purchaseid
 
