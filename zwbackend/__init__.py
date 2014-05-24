@@ -10,7 +10,7 @@ app.config.from_object(__name__)
 from zwbackend import db
 
 app.config.update(dict(
-    DATABASE=os.path.join(app.root_path, 'jokes.db'),
+    DATABASE=os.path.join(app.root_path, 'zw.db'),
     DEBUG=True,
     SECRET_KEY='development key',
     USERNAME='admin',
