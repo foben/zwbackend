@@ -29,7 +29,7 @@ class DummyReceiptReader:
         data = datetime.datetime.strptime(self.unparsedData[1], '%d.%m.%y %H:%M Uhr')
         data = time.mktime(data.timetuple())
         #print self.unparsedData[1] + " -- " + time.strftime('%d.%m.%y %H:%M Uhr')
-        return data
+        return int(data)
 
     # Returns items
     # {productName: [quantity, price], ...}
@@ -90,7 +90,7 @@ class ReweReceiptReader:
 
     def getPurchaseDate(self):
         data = time.time()
-        return data
+        return int(data)
 
     def getReceiptItems(self):
         items = {}
