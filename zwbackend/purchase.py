@@ -24,9 +24,11 @@ def get_purchases_by_month():
     #pdict = {'purchaselist': [ dict(row) for row in rows ]}
     for row in rows:
         purchase_dict = dict(row)
-        purchase_dict['time'] = datetime.datetime.fromtimestamp(purchase_dict['timestamp']).strftime('%Y-%m-%d %H:%M:%S')
+        purchase_dict['time'] = datetime.datetime.fromtimestamp(purchase_dict['timestamp']).strftime('%d.%m.%Y %H:%M')
         purchase_dict['yearmonth'] = datetime.datetime.fromtimestamp(purchase_dict['timestamp']).strftime('%Y-%m')
+        purchase_dict['sum'] = str(purchase_dict['priceSum'])[:4]
         del purchase_dict['timestamp']
+        del purchase_dict['priceSum']
         purchases.append(purchase_dict)
 
     pmap = {}
