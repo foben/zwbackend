@@ -1,0 +1,42 @@
+{
+  "purchaseslist": [
+    {
+      "month": "05", 
+      "monthSum": "5,72", 
+      "purchases": [
+        {
+          "id": 2, 
+          "priceSum": 3.1399999999999997, 
+          "storeName": "REWE", 
+          "sum": "3,14", 
+          "time": "24.05.2014 13:53", 
+          "yearmonth": "2014-05"
+        }, 
+        {
+          "id": 3, 
+          "priceSum": 2.58, 
+          "storeName": "REWE", 
+          "sum": "2,58", 
+          "time": "24.05.2014 16:13", 
+          "yearmonth": "2014-05"
+        }
+      ], 
+      "year": "2014"
+    }, 
+    {
+      "month": "03", 
+      "monthSum": "15,1", 
+      "purchases": [
+        {
+          "id": 1, 
+          "priceSum": 15.16, 
+          "storeName": "REWE", 
+          "sum": "15,1", 
+          "time": "10.03.2014 18:56", 
+          "yearmonth": "2014-03"
+        }
+      ], 
+      "year": "2014"
+    }
+  ]
+}

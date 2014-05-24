@@ -47,10 +47,13 @@ require(["signals", "hasher", "crossroads", "mustache", "jquery"], function(sign
 		});
 	});
 	crossroads.addRoute('purchases', function(){
-		$.get( "templates/purchases.html", function( data ) {
-			$( "#content-main" ).html( data );
-			require(["modules/purchaseModule"], function(purchaseModule){
-				purchaseModule.init();
+		$.getJSON("data/purchasesTest1.json", function(data){
+			$.get( "templates/purchases.html", function( template ) {
+				var htmlData = mustache.to_html(template, data);
+				$( "#content-main" ).html( htmlData );
+				require(["modules/purchaseModule"], function(purchaseModule){
+					purchaseModule.init();
+				});
 			});
 		});
 	});
