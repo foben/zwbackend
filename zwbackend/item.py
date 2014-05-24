@@ -26,6 +26,10 @@ def create_item(name, price, quantity, purchaseid, categoryid):
                             values
                             (?, ?, ?, ?, ?);""",
                             [name, price, quantity, purchaseid, categoryid])
+    itemid = cur.lastrowid
+    database.commit()
+    return itemid
+
 def get_items_for_purchase_view(purchase_id):
     database = db.get_db()
     cur = database.execute("""SELECT s.name AS store, p.timestamp,

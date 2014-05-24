@@ -69,8 +69,10 @@ def create_purchase_from_zettel(timestamp, storename, items):
         quantity = items[item][0]
         price = items[item][1]
         app.logger.debug("{}x {} : {}".format(quantity, item, price))
+        ### HARD CODED CATEGORY ID!!
+        item.create_item(item, price, quantity, purchaseid, 1)
 
-    return "foo"
+    return "great success"
 
 
 def create_purchase(timestamp, storeid):
