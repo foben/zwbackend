@@ -72,7 +72,7 @@ def do_ocr(filename):
 @app.route('/shoppinglist', methods=['GET', 'POST'])
 def upload_image():
 
-    fname = 'upload_' + calendar.timegm(time.gmtime()) + '.png'
+    fname = 'upload_' + str(calendar.timegm(time.gmtime())) + '.png'
     im = request.form['image']
     fh = open(fname, "wb")
     fh.write(im.decode('base64'))
