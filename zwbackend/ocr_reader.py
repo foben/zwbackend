@@ -2,6 +2,7 @@ import Image
 import pytesseract
 import re
 import sys
+import time
 
 class DummyReceiptReader:
     receiptString = ''
@@ -84,6 +85,10 @@ class ReweReceiptReader:
         #self.unparsedData.remove(0)
         return data
 
+    def getPurchaseDate(self):
+        data = time.time()
+        return data
+
     def getReceiptItems(self):
         items = {}
         lastProduct = None
@@ -118,11 +123,19 @@ class ReweReceiptReader:
 
         return items
 
+    def getSum(self):
+        for line in self.unparsedData:
+            data = re.match("SUMME EUR [0-9]+,[0-9]{2}", line)
+            if data is not None:
+                data = data.group(0).split(" ")[-1].replace(",", ".")
+                break
+        return float(data)
+
 
 
 
 if __name__ == "__main__":
-    if len(sys.argv) == 1:
+    if len(sys.argv) == 2 and sys.argv[1] == "rewe":
         """rr = ReceiptReader("kassenzettel4.jpg")
         print rr.getStoreName()
         print rr.getPurchaseDate()
@@ -131,6 +144,13 @@ if __name__ == "__main__":
         rr = ReweReceiptReader("../receipts/kassenzettel11.png")
         rr.status()
         print rr.getStoreName()
+        #print rr.getReceiptItems()
+        print rr.getSum()
+    elif len(sys.argv) == 2 and sys.argv[1] == "dummy":
+        rr = DummyReceiptReader("../receipts/kassenzettel4.jpg")
+        print rr.getStoreName()
+        print rr.getPurchaseDate()
         print rr.getReceiptItems()
+        print rr.getSum()
     else:
         print pytesseract.image_to_string(Image.open("../receipts/kassenzettel11.png"))
