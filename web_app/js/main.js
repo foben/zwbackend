@@ -4,9 +4,11 @@
     	"hasher": "util/hasher",
     	"crossroads": "util/crossroads",
         "jquery": "jquery-1.11.1",
+        "mustache": "util/mustache",
         "jquery.bootstrap": "bootstrap",
         "jqplot": "jqplot/jquery.jqplot",
         "jqplot.barRenderer": "jqplot/plugins/jqplot.barRenderer",
+        "jqplot.pieRenderer": "jqplot/plugins/jqplot.pieRenderer",
     	"jqplot.pointLabels": "jqplot/plugins/jqplot.pointLabels",
     	"jqplot.categoryAxisRenderer": "jqplot/plugins/jqplot.categoryAxisRenderer",
     	"jqplot.dateAxisRenderer": "jqplot/plugins/jqplot.dateAxisRenderer",
@@ -19,6 +21,7 @@
         },
         "jqplot.barRenderer": ["jqplot"],
     	"jqplot.pointLabels": ["jqplot"],
+    	"jqplot.pieRenderer": ["jqplot"],
     	"jqplot.categoryAxisRenderer": ["jqplot"],
     	"jqplot.dateAxisRenderer": ["jqplot"],
     	"jqplot.canvasTextRenderer":["jqplot"],
@@ -38,16 +41,28 @@ require(["signals", "hasher", "crossroads", "jquery"], function(signals, hasher,
 	crossroads.addRoute('statistics', function(){
 		$.get( "templates/statistics.html", function( data ) {
 			$( "#content-main" ).html( data );
-			require(["modules/statisticsModule"], function(testModule){
-				testModule.init();
+			require(["modules/statisticsModule"], function(statisticsModule){
+				statisticsModule.init();
 			});
 		});
 	});
 	crossroads.addRoute('purchases', function(){
 		$.get( "templates/purchases.html", function( data ) {
 			$( "#content-main" ).html( data );
+			require(["modules/purchaseModule"], function(purchaseModule){
+				purchaseModule.init();
+			});
 		});
 	});
+	crossroads.addRoute('purchase/{id}', function(id){
+		$.get( "templates/purchase.html", function( data ) {
+			$( "#content-main" ).html( data );
+			require(["modules/singlePurchaseModule"], function(purchaseModule){
+				purchaseModule.init();
+			});
+		});
+	});
+
 
 	crossroads.routed.add(console.log, console); //log all routes
 	 
@@ -66,6 +81,19 @@ require(["signals", "hasher", "crossroads", "jquery"], function(signals, hasher,
 require(["jquery", "jquery.bootstrap"], function ($) {
 
 });
+
+/*
+require(["mustache"], function(mustache){
+	var person = {
+	    firstName: "Christophe",
+	    lastName: "Coenraets",
+	    blogURL: "http://coenraets.org"
+	};
+	var template = "<h1>{{firstName}} {{lastName}}</h1>Blog: {{blogURL}}";
+	var html = mustache.to_html(template, person);
+	alert(html)
+});
+*/
 
 /*
 require(["modules/mainPageModule"], function(testModule){
