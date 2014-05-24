@@ -4,6 +4,8 @@ create table store (
   name text not null
 );
 
+insert into store (name) values ('LIDL'),('ALDI');
+
 drop table if exists purchase;
 create table purchase (
   id integer primary key autoincrement,
