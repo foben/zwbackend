@@ -1,4 +1,6 @@
 import os
+import calendar
+import time
 import logging
 from flask import Flask, request, session, g, redirect, url_for, abort, \
         render_template, flash, jsonify, make_response
@@ -63,17 +65,19 @@ def do_ocr(filename):
     purchase.create_purchase_from_zettel(timestamp, store, items) 
     return "success"
 
-@app.route('/test')
-def foo():
-    return do_ocr("uploads/rewe.png")
+#@app.route('/test')
+#def foo():
+#    return do_ocr("uploads/rewe.png")
 
 @app.route('/shoppinglist', methods=['GET', 'POST'])
 def upload_image():
+
+    fname = 'upload_' + calendar.timegm(time.gmtime()) + '.png'
     im = request.form['image']
-    fh = open("uploads/upload.png", "wb")
+    fh = open(fname, "wb")
     fh.write(im.decode('base64'))
     fh.close()
-    return do_ocr("uploads/upload.png"), 200
+    return do_ocr(fname), 200
 
 @app.route('/categories')
 def get_categories():
