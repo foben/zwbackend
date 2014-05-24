@@ -3,7 +3,7 @@ import pytesseract
 import re
 import sys
 
-class ReceiptReader:
+class DummyReceiptReader:
     receiptString = ''
     unparsedData = []
 
@@ -60,7 +60,7 @@ class ReceiptReader:
         data = self.unparsedData[len(self.unparsedData)-1]
         return float(data)
 
-class ReceiptReader2:
+class ReweReceiptReader:
     receiptString = ""
     unparsedData = []
 
@@ -121,7 +121,7 @@ if __name__ == "__main__":
         print rr.getPurchaseDate()
         print rr.getReceiptItems()
         print rr.getSum()"""
-        rr = ReceiptReader2("kassenzettel11.png")
+        rr = ReweReceiptReader("kassenzettel11.png")
         rr.status()
         print rr.getStoreName()
         print rr.getReceiptItems()
