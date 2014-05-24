@@ -20,7 +20,7 @@ def get_purchases_by_month():
                               FROM purchase p, store s, item i
                               WHERE p.storeid = s.id AND i.purchaseid = p.id
                               GROUP BY i.purchaseid
-                              ORDER BY p.timestamp;""")
+                              ORDER BY p.timestamp DESC;""")
     rows = cur.fetchall()
     purchases = []
     #pdict = {'purchaselist': [ dict(row) for row in rows ]}
