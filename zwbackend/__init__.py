@@ -6,7 +6,7 @@ from flask import Flask, request, session, g, redirect, url_for, abort, \
 app = Flask(__name__)
 app.config.from_object(__name__)
 
-from zwbackend import purchase
+from zwbackend import purchase, item
 
 app.config.update(dict(
     DATABASE=os.path.join(app.root_path, 'zw.db'),
@@ -19,6 +19,16 @@ app.config.update(dict(
 @app.route('/')
 def hello_world():
     return '<h1>ZW Backend live!</h1>'
+
+@app.route('/items')
+def get_all_items():
+    idict = item.get_all_items()
+    return jsonify(idict)
+
+@app.route('/purchase/<int:purchase_id>/items')
+def get_items_by_purchase_id(purchase_id):
+    idict = item.get_items_of_purchase(purchase_id)
+    return jsonify(idict)
 
 @app.route('/purchases')
 def get_all_purchases():
