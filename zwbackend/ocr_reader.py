@@ -3,7 +3,7 @@ import pytesseract
 import re
 import sys
 
-class ReceiptReader:
+class DummyReceiptReader:
     receiptString = ''
     unparsedData = []
 
@@ -60,7 +60,7 @@ class ReceiptReader:
         data = self.unparsedData[len(self.unparsedData)-1]
         return float(data)
 
-class ReceiptReader2:
+class ReweReceiptReader:
     receiptString = ""
     unparsedData = []
 
@@ -88,27 +88,34 @@ class ReceiptReader2:
         items = {}
         lastProduct = None
         isInItemsSection = False
-        for line in self.unparsedData[1:]:
+        for line in self.unparsedData:
             if not isInItemsSection and re.match("[^ ]+ [0-9]+,[0-9]{2} B", line):
                 isInItemsSection = True
-                
-            else:
+
+            elif not isInItemsSection:
                 continue
 
             if lastProduct is not None and re.match("[0-9]+ X [0-9]+,[0-9]{2}", line) is not None:
                 quantity = re.split(" ", line)[0]
-                items[lastProduct][0] = quantity
+                items[lastProduct][0] = int(quantity)
 
             else:
                 linePieces = re.split(" ", line)
-                product = linePieces[0]
+                product = re.split("[0-9]+,[0-9]{2}", line)[0]
 
-                if product == "SUMME":
+                if re.match("SUMME", product):
                     break
 
-                price = linePieces[1]
-                items[product] = [0, price]
+                price = float(linePieces[-2].replace(",", "."))
+                items[product] = [1, price]
                 lastProduct = product
+
+            #print line
+
+
+        #for line in self.unparsedData:
+        #    print line
+
         return items
 
 
@@ -121,9 +128,9 @@ if __name__ == "__main__":
         print rr.getPurchaseDate()
         print rr.getReceiptItems()
         print rr.getSum()"""
-        rr = ReceiptReader2("kassenzettel11.png")
+        rr = ReweReceiptReader("../receipts/kassenzettel11.png")
         rr.status()
         print rr.getStoreName()
         print rr.getReceiptItems()
     else:
-        print pytesseract.image_to_string(Image.open("kassenzettel11.png"))
+        print pytesseract.image_to_string(Image.open("../receipts/kassenzettel11.png"))
