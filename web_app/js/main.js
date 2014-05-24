@@ -47,7 +47,8 @@ require(["signals", "hasher", "crossroads", "mustache", "jquery"], function(sign
 		});
 	});
 	crossroads.addRoute('purchases', function(){
-		$.getJSON("data/purchasesTest1.json", function(data){
+		//$.getJSON("data/purchasesTest1.json", function(data){
+		$.getJSON("/purchases/month", function(data){
 			$.get( "templates/purchases.html", function( template ) {
 				var htmlData = mustache.to_html(template, data);
 				$( "#content-main" ).html( htmlData );
@@ -58,12 +59,13 @@ require(["signals", "hasher", "crossroads", "mustache", "jquery"], function(sign
 		});
 	});
 	crossroads.addRoute('purchase/{id}', function(id){
-		$.getJSON("data/singlePurchaseTest1.json", function(data){
+		//$.getJSON("data/singlePurchaseTest1.json", function(data){
+		$.getJSON("/purchase/"+id, function(data){
 			$.get( "templates/purchase.html", function( template ) {
 				var htmlData = mustache.to_html(template, data);
 				$( "#content-main" ).html( htmlData );
 				require(["modules/singlePurchaseModule"], function(purchaseModule){
-					purchaseModule.init();
+					purchaseModule.init(id);
 				});
 			});
 		});
