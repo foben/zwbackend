@@ -47,14 +47,11 @@ def do_ocr():
     #rreader = ReweReceiptReader("uploads/upload.png")
     #Dummy rewe file:
     rreader = ReweReceiptReader("uploads/rewe.png")
-    app.logger.debug("Receiptstring:")
-    app.logger.debug(rreader.receiptString)
-    valdict = {}
-    valdict['store_name'] = rreader.getStoreName()
-    valdict['items'] = rreader.getReceiptItems()
-    valdict['receiptstr'] = rreader.receiptString
-    app.logger.debug(valdict)
-    return jsonify(valdict)
+    store = rreader.getStoreName()
+    items = rreader.getReceiptItems()
+    date = rreader.getPurchaseDate()
+    purchase.create_purchase(date, store, items) 
+    return "success", 200
 
 @app.route('/shoppinglist', methods=['GET', 'POST'])
 def upload_image():

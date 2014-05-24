@@ -45,8 +45,10 @@ def get_purchases_by_month():
 
     return {'purchaseslist': rlist}
 
-def create_purchase(timestamp, storeid, items):
-    app.logger.debug(storeid)
+def create_purchase(timestamp, store, items):
+    app.logger.debug("Timestamp: {}".format(timestamp))
+    app.logger.debug("Store: {}".format(store))
+    app.logger.debug("items: {}".format(items))
     pass
 
 
