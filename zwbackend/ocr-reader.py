@@ -88,11 +88,11 @@ class ReweReceiptReader:
         items = {}
         lastProduct = None
         isInItemsSection = False
-        for line in self.unparsedData[1:]:
+        for line in self.unparsedData:
             if not isInItemsSection and re.match("[^ ]+ [0-9]+,[0-9]{2} B", line):
                 isInItemsSection = True
 
-            else:
+            elif not isInItemsSection:
                 continue
 
             if lastProduct is not None and re.match("[0-9]+ X [0-9]+,[0-9]{2}", line) is not None:
@@ -107,8 +107,15 @@ class ReweReceiptReader:
                     break
 
                 price = linePieces[1]
-                items[product] = [0, price]
+                items[product] = [1, price]
                 lastProduct = product
+
+            #print line
+
+
+        #for line in self.unparsedData:
+        #    print line
+
         return items
 
 
@@ -121,9 +128,9 @@ if __name__ == "__main__":
         print rr.getPurchaseDate()
         print rr.getReceiptItems()
         print rr.getSum()"""
-        rr = ReweReceiptReader("kassenzettel11.png")
-        rr.status()
+        rr = ReweReceiptReader("../receipts/kassenzettel11.png")
+        #rr.status()
         print rr.getStoreName()
         print rr.getReceiptItems()
     else:
-        print pytesseract.image_to_string(Image.open("kassenzettel11.png"))
+        print pytesseract.image_to_string(Image.open("../receipts/kassenzettel11.png"))
