@@ -1,4 +1,4 @@
-define(["jquery", "jqplot", "jqplot.dateAxisRenderer", "jqplot.canvasAxisLabelRenderer"],
+define(["jquery", "jqplot", "jqplot.dateAxisRenderer", "jqplot.canvasAxisLabelRenderer", "jqplot.pieRenderer"],
     function($) {
     	var obj = {};
 
@@ -39,8 +39,47 @@ define(["jquery", "jqplot", "jqplot.dateAxisRenderer", "jqplot.canvasAxisLabelRe
 				}]
 			});
 
+
+
+			var data = [
+			    ['Obst/Gemüse', 12],['Lebensmittel', 9], ['Kosmetik', 14],
+			    ['Schreibwaren', 16],['Kleidung', 7], ['Getränke', 9]
+			  ];
+			var plot2 = $.jqplot('chart2', [data], {
+				title:'Einkauf nach Kategorien in den letzten 12 Monaten',
+				seriesDefaults: {
+			        // Make this a pie chart.
+			        renderer: jQuery.jqplot.PieRenderer,
+			        rendererOptions: {
+			          // Put data labels on the pie slices.
+			          // By default, labels show the percentage of the slice.
+			          showDataLabels: true
+			        }
+		      	},
+		      	legend: { show:true, location: 'e' }
+			});
+
+			var data2 = [
+			    ['Rewe', 12],['Aldi', 9], ['Edeka', 14],['DM', 16]
+			  ];
+			var plot3 = $.jqplot('chart3', [data2], {
+				title:'Einkauf nach Geschäft in den letzten 12 Monaten',
+				seriesDefaults: {
+			        // Make this a pie chart.
+			        renderer: jQuery.jqplot.PieRenderer,
+			        rendererOptions: {
+			          // Put data labels on the pie slices.
+			          // By default, labels show the percentage of the slice.
+			          showDataLabels: true
+			        }
+		      	},
+		      	legend: { show:true, location: 'e' }
+			});
+
 			$(window).resize(function() {
 		    	plot1.replot( { resetAxes: false } );
+		    	plot2.replot( { resetAxes: false } );
+		    	plot3.replot( { resetAxes: false } );
 			});
     	}
 

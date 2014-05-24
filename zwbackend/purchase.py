@@ -44,3 +44,9 @@ def get_purchases_by_month():
         rlist.append({'year': yearmonth[:4], 'month': yearmonth[-2:], 'purchases': ps})
 
     return {'purchaseslist': rlist}
+
+def create_purchase(timestamp, storeid, items):
+    app.logger.debug(storeid)
+    pass
+
+
