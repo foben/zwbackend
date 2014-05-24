@@ -31,7 +31,7 @@
 
 
 
-require(["signals", "hasher", "crossroads", "jquery"], function(signals, hasher, crossroads, $){
+require(["signals", "hasher", "crossroads", "mustache", "jquery"], function(signals, hasher, crossroads, mustache, $){
 	//setup crossroads
 	crossroads.addRoute('', function(){
 		$.get( "templates/main.html", function( data ) {
@@ -55,10 +55,13 @@ require(["signals", "hasher", "crossroads", "jquery"], function(signals, hasher,
 		});
 	});
 	crossroads.addRoute('purchase/{id}', function(id){
-		$.get( "templates/purchase.html", function( data ) {
-			$( "#content-main" ).html( data );
-			require(["modules/singlePurchaseModule"], function(purchaseModule){
-				purchaseModule.init();
+		$.getJSON("data/singlePurchaseTest1.json", function(data){
+			$.get( "templates/purchase.html", function( template ) {
+				var htmlData = mustache.to_html(template, data);
+				$( "#content-main" ).html( htmlData );
+				require(["modules/singlePurchaseModule"], function(purchaseModule){
+					purchaseModule.init();
+				});
 			});
 		});
 	});

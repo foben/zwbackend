@@ -7,7 +7,7 @@
   </div>
 </div>
 
-<h1>Einkauf bei Rewe vom 23.04.2014</h1>
+<h1>Einkauf bei {{store}} vom {{datetime}} </h1>
 
 <div style="text-align: left;">
   <div class="table-responsive">
@@ -21,30 +21,20 @@
       </thead>
 
       <tbody>
+
+        {{#items}}
         <tr>
-          <td>Obst/Gemüse</td>
-          <td>Erdbeeren</td>
-          <td>0,99 €</td>
+          <td>{{category}}</td>
+          <td>{{name}}</td>
+          <td>{{price}}</td>
         </tr>
-        <tr>
-          <td>Lebensmittel</td>
-          <td>Pesto, ital. 190 g</td>
-          <td>1,19 €</td>
-        </tr>
-        <tr>
-          <td>Lebensmittel</td>
-          <td>Pommes Fritz</td>
-          <td>0,95 €</td>
-        </tr>
-        <tr>
-          <td>Lebensmittel</td>
-          <td>Bio Lachsfilet</td>
-          <td>4,99 €</td>
-        </tr>
+        {{/items}}
+
+
         <tr>
           <td></td>
           <td></td>
-          <td style="font-weight: bold;">8,12 €</td>
+          <td style="font-weight: bold;">{{sum}}</td>
         </tr>
       </tbody>
     </table>
