@@ -1,6 +1,7 @@
 import Image
 import pytesseract
 import re
+import sys
 
 class ReceiptReader:
     receiptString = ''
@@ -59,10 +60,70 @@ class ReceiptReader:
         data = self.unparsedData[len(self.unparsedData)-1]
         return float(data)
 
+class ReceiptReader2:
+    receiptString = ""
+    unparsedData = []
+
+    def __init__(self, receiptImage):
+        self.receiptString = pytesseract.image_to_string(Image.open(receiptImage))
+        self._preprocess()
+
+    def _preprocess(self):
+        unparsedData = re.split("\n", self.receiptString)
+        for item in unparsedData:
+            if item != "":
+                self.unparsedData.append(item)
+        #print self.unparsedData
+
+    def status(self):
+        for datum in self.unparsedData:
+            print datum
+
+    def getStoreName(self):
+        data = self.unparsedData[0]
+        #self.unparsedData.remove(0)
+        return data
+
+    def getReceiptItems(self):
+        items = {}
+        lastProduct = None
+        isInItemsSection = False
+        for line in self.unparsedData[1:]:
+            if not isInItemsSection and re.match("[^ ]+ [0-9]+,[0-9]{2} B", line):
+                isInItemsSection = True
+                
+            else:
+                continue
+
+            if lastProduct is not None and re.match("[0-9]+ X [0-9]+,[0-9]{2}", line) is not None:
+                quantity = re.split(" ", line)[0]
+                items[lastProduct][0] = quantity
+
+            else:
+                linePieces = re.split(" ", line)
+                product = linePieces[0]
+
+                if product == "SUMME":
+                    break
+
+                price = linePieces[1]
+                items[product] = [0, price]
+                lastProduct = product
+        return items
+
+
+
 
 if __name__ == "__main__":
-    rr = ReceiptReader("kassenzettel4.jpg")
-    print rr.getStoreName()
-    print rr.getPurchaseDate()
-    print rr.getReceiptItems()
-    print rr.getSum()
+    if len(sys.argv) == 1:
+        """rr = ReceiptReader("kassenzettel4.jpg")
+        print rr.getStoreName()
+        print rr.getPurchaseDate()
+        print rr.getReceiptItems()
+        print rr.getSum()"""
+        rr = ReceiptReader2("kassenzettel11.png")
+        rr.status()
+        print rr.getStoreName()
+        print rr.getReceiptItems()
+    else:
+        print pytesseract.image_to_string(Image.open("kassenzettel11.png"))
