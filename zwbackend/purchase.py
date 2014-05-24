@@ -65,12 +65,12 @@ def create_purchase_from_zettel(timestamp, storename, items):
     app.logger.debug("Create a purchase")
     purchaseid = create_purchase(timestamp, storeid)
     app.logger.debug("Returned Purchase Id: {}".format(purchaseid))
-    for item in items:
-        quantity = items[item][0]
-        price = items[item][1]
+    for itemname in items:
+        quantity = items[itemname][0]
+        price = items[itemname][1]
         app.logger.debug("{}x {} : {}".format(quantity, item, price))
         ### HARD CODED CATEGORY ID!!
-        item.create_item(item, price, quantity, purchaseid, 1)
+        item.create_item(itemname, price, quantity, purchaseid, 1)
 
     return "great success"
 
