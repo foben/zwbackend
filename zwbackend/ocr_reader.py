@@ -109,7 +109,7 @@ class ReweReceiptReader:
 
             else:
                 linePieces = re.split(" ", line)
-                product = re.split("[0-9]+,[0-9]{2}", line)[0]
+                product = re.split("[0-9]+,[0-9]{2}", line)[0].strip()
 
                 if re.match("SUMME", product):
                     break

@@ -52,6 +52,28 @@ create table category (
 );
 
 insert into category (name, parentid) values
-("LEBENSMITTEL", null),
-("HYGIENE", null),
-("ALKOHOL", null);
+("Obst", null),
+("Fisch", null),
+("Backwaren", null),
+("Käse", null),
+("Gemüse", null);
+
+create table mappings (
+    id integer primary key autoincrement,
+    item text not null,
+    categoryid integer,
+    FOREIGN KEY(categoryid) REFERENCES category(id)
+);
+
+insert into mappings (item, categoryid) values
+("810 MEHRKORNBR.", 3),
+("KRONE LACHS", 2),
+("JA ! AUFSCHNITT", 4),
+("TAGLIA.HILDLACHS", 2),
+("MANGO BIO", 1),
+("BLAETTERTEIG", 3),
+("KNUBL.NEUTRAL", 5),
+("KIWI BIO", 1),
+("CHERRYTUMATE BIO", 5),
+("MEHRKDNSBHNITTE", 3),
+("APFEL SCIFRESH", 1);
