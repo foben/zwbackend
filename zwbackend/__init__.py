@@ -58,7 +58,7 @@ def do_ocr():
     app.logger.debug("Timestamp: {}".format(timestamp))
     app.logger.debug("Store: {}".format(store))
     app.logger.debug("items: {}".format(items))
-    purchase.create_purchase(timestamp, store, items) 
+    purchase.create_purchase_from_zettel(timestamp, store, items) 
     return "success"
 
 @app.route('/test')
