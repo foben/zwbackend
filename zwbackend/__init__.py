@@ -36,6 +36,11 @@ def get_all_purchases():
     pdict = purchase.get_all_purchases()
     return jsonify(pdict)
 
+@app.route('/purchases/month')
+def get_purchases_by_month():
+    pdict = purchase.get_purchases_by_month()
+    return jsonify(pdict)
+
 @app.route('/ocr')
 def do_ocr():
     rreader = ReweReceiptReader('zwbackend/savedimage.png')
