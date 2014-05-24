@@ -41,8 +41,8 @@ def get_purchases_by_month():
     rlist = []
     for yearmonth in pmap:
         ps = pmap[yearmonth]
-        psum = helper.to_string_price(sum([p['priceSum'] for p in ps]))
-        rlist.append({'year': yearmonth[:4], 'month': yearmonth[-2:], 'sum': psum, 'purchases': ps})
+        monthSum = helper.to_string_price(sum([p['priceSum'] for p in ps]))
+        rlist.append({'year': yearmonth[:4], 'month': yearmonth[-2:], 'monthSum': monthSum, 'purchases': ps})
 
     return {'purchaseslist': rlist}
 
