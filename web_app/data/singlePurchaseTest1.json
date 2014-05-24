@@ -1,0 +1,31 @@
+{
+    "store": "LIDL",
+    "datetime": "22.10.2013 12:56",
+    "sum": "13,56 €",
+    "items": [
+        {
+            "name": "Erdbeeren",
+            "category": "Obst/Gemüse",
+            "quantity": 3,
+            "price": "0,99 €"
+        },
+        {
+            "name": "Pesto, ital. 190 g",
+            "category": "Lebensmittel",
+            "quantity": 1,
+            "price": "0,99 €"
+        },
+        {
+            "name": "Pommes Fritz",
+            "category": "Lebensmittel",
+            "quantity": 1,
+            "price": "0,95 €"
+        },
+        {
+            "name": "Bio Lachsfilet",
+            "category": "Lebensmittel",
+            "quantity": 1,
+            "price": "4,99 €"
+        }
+    ]
+}
