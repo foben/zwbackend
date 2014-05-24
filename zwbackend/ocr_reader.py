@@ -87,6 +87,8 @@ class ReweReceiptReader:
             print datum
 
     def getStoreName(self):
+        if len(self.unparsedData == 0):
+            return "Nuttin'"
         data = self.unparsedData[0]
         #self.unparsedData.remove(0)
         return data
