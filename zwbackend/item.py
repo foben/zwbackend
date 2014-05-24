@@ -1,4 +1,5 @@
 from zwbackend import db, helper
+from zwbackend import app
 from flask import abort
 import datetime
 
