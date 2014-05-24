@@ -6,7 +6,7 @@ from flask import Flask, request, session, g, redirect, url_for, abort, \
 app = Flask(__name__)
 app.config.from_object(__name__)
 
-from zwbackend import purchase, item
+from zwbackend import purchase, item, category
 from ocr_reader import ReweReceiptReader
 
 app.config.update(dict(
@@ -68,3 +68,18 @@ def upload_image():
     fh.write(im.decode('base64'))
     fh.close()
     return do_ocr("uploads/upload.png"), 200
+
+@app.route('/categories')
+def get_categories():
+    categories = category.get_categories()
+    return jsonify({'categories': categories})
+
+@app.route('/mappings', methods=['GET', 'POST'])
+def mappings():
+    if request.method == 'GET':
+        mappings = category.get_mappings()
+        return jsonify({'mappings':mappings})
+    if request.method == 'POST':
+        raise ValueError("adsf")
+
+
