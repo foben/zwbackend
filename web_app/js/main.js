@@ -53,7 +53,7 @@ require(["signals", "hasher", "crossroads", "mustache", "jquery"], function(sign
 				var htmlData = mustache.to_html(template, data);
 				$( "#content-main" ).html( htmlData );
 				require(["modules/purchaseModule"], function(purchaseModule){
-					purchaseModule.init();
+					purchaseModule.init(data);
 				});
 			});
 		});
