@@ -6,7 +6,8 @@ define(["hasher", "jquery", "jquery.bootstrap"],
 			console.log("init purchase module");
 			
 			$('.purchaseTable tr').click(function() {
-				hasher.setHash('purchase/57');
+                var purchaseId =($(this).attr('purchaseId'));
+				hasher.setHash('purchase/'+purchaseId);
 		    });
     	};
 

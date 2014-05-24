@@ -5,25 +5,25 @@
     "items": [
         {
             "name": "Erdbeeren",
-            "category": "Obst/Gemüse",
+            "categoryName": "Obst/Gemüse",
             "quantity": 3,
             "price": "0,99 €"
         },
         {
             "name": "Pesto, ital. 190 g",
-            "category": "Lebensmittel",
+            "categoryName": "Lebensmittel",
             "quantity": 1,
             "price": "0,99 €"
         },
         {
             "name": "Pommes Fritz",
-            "category": "Lebensmittel",
+            "categoryName": "Lebensmittel",
             "quantity": 1,
             "price": "0,95 €"
         },
         {
             "name": "Bio Lachsfilet",
-            "category": "Lebensmittel",
+            "categoryName": "Lebensmittel",
             "quantity": 1,
             "price": "4,99 €"
         }

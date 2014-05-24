@@ -1,16 +1,18 @@
 <h1>Einkäufe</h1>
 
 <div style="text-align: left;" class="panel-group" id="accordion">
+
+{{#purchaseslist}}
   <div class="panel panel-default">
     <div class="panel-heading">
       <h4 class="panel-title">
-        <a data-toggle="collapse" data-target="#collapseOne">
-          <span>April 2014</span>
-          <span class="pull-right">335,15 €</span>
+        <a data-toggle="collapse" data-target="#collapse{{month}}{{year}}">
+          <span>{{month}} / {{year}}</span>
+          <span class="pull-right">{{monthSum}} €</span>
         </a>
       </h4>
     </div>
-    <div id="collapseOne" class="panel-collapse collapse in">
+    <div id="collapse{{month}}{{year}}" class="panel-collapse collapse in">
       <div class="panel-body">
 
 		<div class="table-responsive">
@@ -23,32 +25,14 @@
 		  		</tr>
 		  	</thead>
 
-		  	<tbody>
-			    <tr>
-			    	<td>20.04.2014</td>
-			    	<td>Rewe</td>
-			    	<td>43,74 €</td>
+		  	<tbody>	
+	  			{{#purchases}}
+			    <tr purchaseId="{{id}}">
+			    	<td>{{time}}</td>
+			    	<td>{{storeName}}</td>
+			    	<td>{{sum}} €</td>
 			    </tr>
-			    <tr>
-			    	<td>19.04.2014</td>
-			    	<td>Aldi</td>
-			    	<td>21,12 €</td>
-			    </tr>
-			    <tr>
-			    	<td>12.04.2014</td>
-			    	<td>Netto</td>
-			    	<td>57,11 €</td>
-			    </tr>
-			    <tr>
-			    	<td>11.04.2014</td>
-			    	<td>Edeka</td>
-			    	<td>89,77 €</td>
-			    </tr>
-			    <tr>
-			    	<td>12.04.2014</td>
-			    	<td>Real</td>
-			    	<td>123,41 €</td>
-			    </tr>
+	  			{{/purchases}}
 		    </tbody>
 		  </table>
 		</div>
@@ -57,34 +41,6 @@
       </div>
     </div>
   </div>
-  <div class="panel panel-default">
-    <div class="panel-heading">
-      <h4 class="panel-title">
-        <a data-toggle="collapse" data-target="#collapseTwo">
-      		<span>März 2014</span>
-       		<span class="pull-right">280,55 €</span>
-        </a>
-      </h4>
-    </div>
-    <div id="collapseTwo" class="panel-collapse collapse">
-      <div class="panel-body">
-        Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
-      </div>
-    </div>
-  </div>
-  <div class="panel panel-default">
-    <div class="panel-heading">
-      <h4 class="panel-title">
-        <a data-toggle="collapse" data-target="#collapseThree">
-          	<span>Februar 2014</span>
-       		<span class="pull-right">420,76 €</span>
-        </a>
-      </h4>
-    </div>
-    <div id="collapseThree" class="panel-collapse collapse">
-      <div class="panel-body">
-        Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
-      </div>
-    </div>
-  </div>
+{{/purchaseslist}}
+
 </div>
