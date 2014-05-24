@@ -43,7 +43,7 @@ def get_purchases_by_month():
 
 @app.route('/ocr')
 def do_ocr():
-    rreader = ReweReceiptReader('savedimage.png')
+    rreader = ReweReceiptReader("uploads/upload.png")
     app.logger.debug("Receiptstring:")
     app.logger.debug(rreader.receiptString)
     valdict = {}
@@ -56,7 +56,7 @@ def do_ocr():
 @app.route('/shoppinglist', methods=['GET', 'POST'])
 def upload_image():
     im = request.form['image']
-    fh = open("savedimage.png", "wb")
+    fh = open("uploads/upload.png", "wb")
     fh.write(im.decode('base64'))
     fh.close()
     return do_ocr(), 200
