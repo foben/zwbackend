@@ -15,7 +15,7 @@ create table purchase (
 );
 
 insert into purchase (timestamp, storeid) values (1394477761, 1),
-(1400939632, 1), (1400949632, 1);
+(1400939632, 1), (1400948006, 1);
 
 drop table if exists item;
 create table item (
@@ -37,7 +37,11 @@ insert into item (name, price, quantity, purchaseid, categoryid) values
 ("BLAETTERTEIG", 1.75, 1, 1, 1),
 ("JA ! AUFSCHNITT", 1.39, 1, 1, 1),
 ("KIWI BIO", 1.29, 1, 1, 1),
-("CHERRYTOMATE BIO", 1.29, 1, 1, 1);
+("CHERRYTOMATE BIO", 1.29, 1, 1, 1),
+("BLAETTERTEIG", 1.75, 1, 2, 1),
+("JA ! AUFSCHNITT", 1.39, 1, 2, 1),
+("KIWI BIO", 1.29, 1, 3, 1),
+("CHERRYTOMATE BIO", 1.29, 1, 3, 1);
 
 drop table if exists category;
 create table category (
