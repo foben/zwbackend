@@ -53,6 +53,11 @@ def get_categories_of_purchase(purchase_id):
     result = category.get_categories_of_purchase(purchase_id)
     return jsonify(result)
 
+@app.route('/category/year/<int:year>/month/<int:month>')
+def get_categories_by_month(year, month):
+    result = category.get_categories_by_month(year, month)
+    return jsonify(result)
+
 def do_ocr(filename):
     app.logger.debug("Filename: {}".format(filename))
     rreader = ReweReceiptReader(filename)
