@@ -3,6 +3,7 @@ import pytesseract
 import re
 import sys
 import time
+import datetime
 
 class DummyReceiptReader:
     receiptString = ''
@@ -25,7 +26,9 @@ class DummyReceiptReader:
         return data
 
     def getPurchaseDate(self):
-        data = self.unparsedData[1]
+        data = datetime.datetime.strptime(self.unparsedData[1], '%d.%m.%y %H:%M Uhr')
+        data = time.mktime(data.timetuple())
+        #print self.unparsedData[1] + " -- " + time.strftime('%d.%m.%y %H:%M Uhr')
         return data
 
     # Returns items
@@ -142,12 +145,13 @@ if __name__ == "__main__":
         print rr.getReceiptItems()
         print rr.getSum()"""
         rr = ReweReceiptReader("../receipts/kassenzettel11.png")
-        rr.status()
+        #rr.status()
         print rr.getStoreName()
-        #print rr.getReceiptItems()
+        print rr.getPurchaseDate()
+        print rr.getReceiptItems()
         print rr.getSum()
     elif len(sys.argv) == 2 and sys.argv[1] == "dummy":
-        rr = DummyReceiptReader("../receipts/kassenzettel4.jpg")
+        rr = DummyReceiptReader("../receipts/kassenzettel6.jpg")
         print rr.getStoreName()
         print rr.getPurchaseDate()
         print rr.getReceiptItems()
