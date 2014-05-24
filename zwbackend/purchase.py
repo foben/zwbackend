@@ -66,7 +66,9 @@ def create_purchase_from_zettel(timestamp, storename, items):
     purchaseid = create_purchase(timestamp, storeid)
     app.logger.debug("Returned Purchase Id: {}".format(purchaseid))
     for item in items:
-        app.logger.debug(item)
+        quantity = items[item][0]
+        price = items[item][1]
+        app.logger.debug("{}x {} : {}".format(quantity, item, price))
 
     return "foo"
 
