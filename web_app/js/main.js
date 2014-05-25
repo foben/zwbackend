@@ -49,6 +49,22 @@ require(["signals", "hasher", "crossroads", "mustache", "jquery"], function(sign
 	crossroads.addRoute('purchases', function(){
 		//$.getJSON("data/purchasesTest1.json", function(data){
 		$.getJSON("/purchases/month", function(data){
+            data.purchaseslist.sort(function(a, b){
+                var year1 = parseInt(a.year);
+                var month1 = parseInt(a.month);
+                var year2 = parseInt(b.year);
+                var month2 = parseInt(b.month);
+
+                if(year1 == year2){
+                    console.log("year")
+                    console.log("returning " + month1 < month2 ? 1 : -1);
+                    return month1 < month2 ? 1 : -1;
+                }else{
+                    console.log("returning " + year1 < year2 ? 1 : -1);
+                    return year1 < year2 ? 1 : -1;
+                }
+            });
+
 			$.get( "templates/purchases.html", function( template ) {
 				var htmlData = mustache.to_html(template, data);
 				$( "#content-main" ).html( htmlData );
