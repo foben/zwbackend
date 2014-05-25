@@ -34,6 +34,25 @@ define(["jquery", "jqplot", "jqplot.pieRenderer"],
 
 				fixLegend();
 			});
+
+
+			/*
+			$('.purchaseTable tr').click(function() {
+				console.log("clicked line");
+                var purchaseId =($(this).attr('purchaseId'));
+				hasher.setHash('purchase/'+purchaseId);
+		    });
+			*/
+
+		    $( ".purchaseTable tr" ).hover(
+				function() {
+					$( this ).find("img:first").attr("src", "img/apple_hover.png");
+				}, 
+				function() {
+					$( this ).find("img:first").attr("src", "img/apple.png");
+				}
+			);
+
     	}
 
         return obj;
