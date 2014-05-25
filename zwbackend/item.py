@@ -62,3 +62,9 @@ def get_items_for_purchase_view(purchase_id):
 
     return {'store': store, 'datetime': date_time, 'sum': psum, 'items': items}
 
+def update_category_for_item(itemid, categoryid):
+    app.logger.debug("itemid: {},  categoryid: {}".format(itemid, categoryid))
+    database = db.get_db()
+    cur = database.execute("""UPDATE item SET categoryid=? WHERE id=?""",
+                            [categoryid, itemid])
+    database.commit()

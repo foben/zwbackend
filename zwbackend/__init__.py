@@ -2,6 +2,7 @@ import os
 import calendar
 import time
 import logging
+import json
 from flask import Flask, request, session, g, redirect, url_for, abort, \
         render_template, flash, jsonify, make_response
 
@@ -88,4 +89,14 @@ def mappings():
         return jsonify({'mappings':mappings})
     if request.method == 'POST':
         raise ValueError("adsf")
+
+@app.route('/update_category', methods=['POST'])
+def update_category():
+    postdata = json.loads(request.data)
+    itemid = postdata['itemid']
+    categoryid = postdata['categoryid']
+    itemstr = postdata['itemname']
+    item.update_category_for_item(itemid, categoryid)
+
+    return "success", 200
 
