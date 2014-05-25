@@ -1,4 +1,6 @@
 import os
+import calendar
+import time
 import logging
 from flask import Flask, request, session, g, redirect, url_for, abort, \
         render_template, flash, jsonify, make_response
@@ -51,28 +53,28 @@ def get_categories_of_purchase(purchase_id):
     result = category.get_categories_of_purchase(purchase_id)
     return jsonify(result)
 
+@app.route('/category/year/<int:year>/month/<int:month>')
+def get_categories_by_month(year, month):
+    result = category.get_categories_by_month(year, month)
+    return jsonify(result)
+
 def do_ocr(filename):
+    app.logger.debug("Filename: {}".format(filename))
     rreader = ReweReceiptReader(filename)
     store = rreader.getStoreName()
     items = rreader.getReceiptItems()
     timestamp = rreader.getPurchaseDate()
-    app.logger.debug("Timestamp: {}".format(timestamp))
-    app.logger.debug("Store: {}".format(store))
-    app.logger.debug("items: {}".format(items))
     purchase.create_purchase_from_zettel(timestamp, store, items) 
     return "success"
 
-@app.route('/test')
-def foo():
-    return do_ocr("uploads/rewe.png")
-
 @app.route('/shoppinglist', methods=['GET', 'POST'])
 def upload_image():
+    fname = 'uploads/upload_' + str(calendar.timegm(time.gmtime())) + '.png'
     im = request.form['image']
-    fh = open("uploads/upload.png", "wb")
+    fh = open(fname, "wb")
     fh.write(im.decode('base64'))
     fh.close()
-    return do_ocr("uploads/upload.png"), 200
+    return do_ocr(fname), 200
 
 @app.route('/categories')
 def get_categories():
@@ -86,5 +88,4 @@ def mappings():
         return jsonify({'mappings':mappings})
     if request.method == 'POST':
         raise ValueError("adsf")
-
 

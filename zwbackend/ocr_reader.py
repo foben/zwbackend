@@ -21,6 +21,8 @@ class DummyReceiptReader:
         #print self.unparsedData
 
     def getStoreName(self):
+        if len(self.unparsedData) == 0:
+            return "Nuuttin'"
         data = self.unparsedData[0]
         #self.unparsedData.remove(0)
         return data
@@ -65,11 +67,12 @@ class DummyReceiptReader:
         return float(data)
 
 class ReweReceiptReader:
-    receiptString = ""
-    unparsedData = []
+    #receiptString = ""
+    #unparsedData = []
 
     def __init__(self, receiptImage):
         self.receiptString = pytesseract.image_to_string(Image.open(receiptImage))
+        self.unparsedData = []
         self._preprocess()
 
     def _preprocess(self):
@@ -84,6 +87,8 @@ class ReweReceiptReader:
             print datum
 
     def getStoreName(self):
+        if len(self.unparsedData) == 0:
+            return "Nuttin'"
         data = self.unparsedData[0]
         #self.unparsedData.remove(0)
         return data
