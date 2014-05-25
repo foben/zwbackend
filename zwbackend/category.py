@@ -51,4 +51,4 @@ def get_categories_by_month(year, month):
                               GROUP BY c.id;""" % (first_timestamp,last_timestamp) ) #% ("%%s", year_month))
     rows = cur.fetchall()
     categories = [dict(row) for row in rows]
-    return {'productCategories': categories}
+    return {'productCategories': [[c['name'], c['sum']] for c in categories]}

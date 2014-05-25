@@ -39,8 +39,6 @@ define(["jquery", "jqplot", "jqplot.dateAxisRenderer", "jqplot.canvasAxisLabelRe
 				}]
 			});
 
-
-
 			var data = [
 			    ['Obst/Gemüse', 12],['Lebensmittel', 9], ['Kosmetik', 14],
 			    ['Schreibwaren', 16],['Kleidung', 7], ['Getränke', 9]
@@ -56,7 +54,7 @@ define(["jquery", "jqplot", "jqplot.dateAxisRenderer", "jqplot.canvasAxisLabelRe
 			          showDataLabels: true
 			        }
 		      	},
-		      	legend: { show:true, location: 'e' }
+		      	legend: { show:true, location: 's', placement: "outside" }
 			});
 
 			var data2 = [
@@ -73,13 +71,26 @@ define(["jquery", "jqplot", "jqplot.dateAxisRenderer", "jqplot.canvasAxisLabelRe
 			          showDataLabels: true
 			        }
 		      	},
-		      	legend: { show:true, location: 'e' }
+		      	legend: { show:true, location: 's', placement: "outside" }
 			});
+
+			var fixLegend = function(){
+                var text = jQuery("#chart2 table[class='jqplot-table-legend']").html();
+                jQuery("#legendContainer2").html(text);
+                jQuery("#chart2 table[class='jqplot-table-legend']").html(''); 
+
+                var text = jQuery("#chart3 table[class='jqplot-table-legend']").html();
+                jQuery("#legendContainer3").html(text);
+                jQuery("#chart3 table[class='jqplot-table-legend']").html(''); 
+            }
+
+            fixLegend();
 
 			$(window).resize(function() {
 		    	plot1.replot( { resetAxes: false } );
 		    	plot2.replot( { resetAxes: false } );
 		    	plot3.replot( { resetAxes: false } );
+		    	fixLegend();
 			});
     	}
 
