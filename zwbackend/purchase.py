@@ -28,7 +28,7 @@ def get_purchases_by_month():
         purchase_dict = dict(row)
         purchase_dict['time'] = datetime.datetime.fromtimestamp(purchase_dict['timestamp']).strftime('%d.%m.%Y %H:%M')
         purchase_dict['yearmonth'] = datetime.datetime.fromtimestamp(purchase_dict['timestamp']).strftime('%Y-%m')
-        purchase_dict['sum'] = str(purchase_dict['priceSum'])[:4].replace('.',',')
+        purchase_dict['sum'] = helper.to_string_price(purchase_dict['priceSum'])
         del purchase_dict['timestamp']
         purchases.append(purchase_dict)
 

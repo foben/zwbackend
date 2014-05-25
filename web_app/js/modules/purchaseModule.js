@@ -42,8 +42,7 @@ define(["hasher", "jquery", "jquery.bootstrap", "jqplot", "jqplot.pieRenderer"],
     	obj.init = function(data){
 			console.log("init purchase module");
 
-            plots = [];
-			
+
             // add click listener for navigation
 			$('.purchaseTable tr').click(function() {
                 var purchaseId =($(this).attr('purchaseId'));
@@ -71,13 +70,6 @@ define(["hasher", "jquery", "jquery.bootstrap", "jqplot", "jqplot.pieRenderer"],
 
     	};
 
-        // redraws the plots, called if a category is opened
-        obj.replot = function(){
-            plots.forEach(function(plot){
-                plot.replot( { resetAxes: false } );
-                plot.fixLegend();
-            });
-        }
 
         return obj;
     }
