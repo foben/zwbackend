@@ -94,6 +94,11 @@ require(["signals", "hasher", "crossroads", "mustache", "jquery"], function(sign
 	hasher.initialized.add(parseHash); //parse initial hash
 	hasher.changed.add(parseHash); //parse hash changes
 	hasher.init(); //start listening for history change
+
+	// close navbar collapse menu on navigation
+	$('.nav a').on('click', function(){
+	    $("#btn-navbar-collapse").click();
+	});
 });
 
 require(["jquery", "jquery.bootstrap"], function ($) {
