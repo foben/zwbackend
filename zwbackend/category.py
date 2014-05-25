@@ -39,7 +39,7 @@ def get_categories_by_month(year, month):
     database = db.get_db()
 
     month_range = calendar.monthrange(year, month)
-    first = datetime.datetime(year=year,month=month,day=month_range[0])
+    first = datetime.datetime(year=year,month=month,day=month_range[0]+1)
     first_timestamp = calendar.timegm(first.utctimetuple())
     last = datetime.datetime(year=year,month=month,day=month_range[1])
     last_timestamp = calendar.timegm(last.utctimetuple())
