@@ -4,6 +4,7 @@ import re
 import sys
 import time
 import datetime
+import subprocess
 
 class DummyReceiptReader:
     receiptString = ''
@@ -140,6 +141,89 @@ class ReweReceiptReader:
         return float(data)
 
 
+class ReweReceiptReader2:
+    #receiptString = ""
+    #unparsedData = []
+
+    def __init__(self, receiptImage):
+
+        ca = subprocess.call(["scantailor-cli", receiptImage + " --rotate=90.0 -l=1.5 -o /home/ubuntu/zwbackend/receipts/"])
+        print ca
+        self.receiptString = pytesseract.image_to_string(Image.open(receiptImage[:-3] + "tif"))
+
+        self.unparsedData = []
+        self._preprocess()
+
+    def _preprocess(self):
+        unparsedData = re.split("\n", self.receiptString)
+        for item in unparsedData:
+            if item != "":
+                self.unparsedData.append(item)
+        #print self.unparsedData
+
+    def status(self):
+        for datum in self.unparsedData:
+            print datum
+
+    def getStoreName(self):
+        if len(self.unparsedData) == 0:
+            return "Nuttin'"
+        data = self.unparsedData[0]
+        #self.unparsedData.remove(0)
+        return data
+
+    def getPurchaseDate(self):
+        data = time.time()
+        return int(data)
+
+    def getReceiptItems(self):
+        items = {}
+        lastProduct = None
+        isInItemsSection = False
+        for line in self.unparsedData[:-1]:
+            if not isInItemsSection and re.match("[^ ]+ [0-9]+,[0-9]{2} B", line):
+                isInItemsSection = True
+
+            elif not isInItemsSection:
+                continue
+
+            if lastProduct is not None and re.match("[0-9]+ X [0-9]+,[0-9]{2}", line) is not None:
+                quantity = re.split(" ", line)[0]
+                items[lastProduct][0] = int(quantity)
+
+            else:
+                linePieces = re.split(" ", line)
+
+                product = None
+                if re.search("[0-9]+,[0-9]{2}", line) is not None:
+                    product = re.split("[0-9]+,[0-9]{2}", line)[0].strip()
+                elif re.search("[0-9]+.[0-9]{2}", line) is not None:
+                    product = re.split("[0-9]+.[0-9]{2}", line)[0].strip()
+
+                #if re.match("SUMME", product):
+                #    break
+
+                price = float(linePieces[-2].replace(",", "."))
+                items[product] = [1, price]
+                lastProduct = product
+
+            #print line
+
+
+        #for line in self.unparsedData:
+        #    print line
+
+        return items
+
+    def getSum(self):
+        for line in self.unparsedData:
+            data = re.match("SUMME EUR [0-9]+,[0-9]{2}", line)
+            if data is not None:
+                data = data.group(0).split(" ")[-1].replace(",", ".")
+                break
+        return float(data)
+
+
 
 
 if __name__ == "__main__":
@@ -150,6 +234,7 @@ if __name__ == "__main__":
         print rr.getReceiptItems()
         print rr.getSum()"""
         rr = ReweReceiptReader("../receipts/kassenzettel11.png")
+        #rr = ReweReceiptReader("../receipts/kassenzettel16.tif")
         #rr.status()
         print rr.getStoreName()
         print rr.getPurchaseDate()
@@ -161,5 +246,13 @@ if __name__ == "__main__":
         print rr.getPurchaseDate()
         print rr.getReceiptItems()
         print rr.getSum()
+    elif len(sys.argv) == 2 and sys.argv[1] == "rewe2":
+        #rr = ReweReceiptReader("../receipts/kassenzettel11.png")
+        rr = ReweReceiptReader2("../receipts/kassenzettel17.jpg")
+        #rr.status()
+        print rr.getStoreName()
+        print rr.getPurchaseDate()
+        print rr.getReceiptItems()
+        #print rr.getSum()
     else:
-        print pytesseract.image_to_string(Image.open("../receipts/kassenzettel11.png"))
+        print pytesseract.image_to_string(Image.open("../receipts/kassenzettel16.tif"))
