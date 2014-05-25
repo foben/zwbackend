@@ -64,19 +64,11 @@ def do_ocr(filename):
     store = rreader.getStoreName()
     items = rreader.getReceiptItems()
     timestamp = rreader.getPurchaseDate()
-    #app.logger.debug("Timestamp: {}".format(timestamp))
-    #app.logger.debug("Store: {}".format(store))
-    #app.logger.debug("items: {}".format(items))
     purchase.create_purchase_from_zettel(timestamp, store, items) 
     return "success"
 
-#@app.route('/test')
-#def foo():
-#    return do_ocr("uploads/rewe.png")
-
 @app.route('/shoppinglist', methods=['GET', 'POST'])
 def upload_image():
-
     fname = 'uploads/upload_' + str(calendar.timegm(time.gmtime())) + '.png'
     im = request.form['image']
     fh = open(fname, "wb")
