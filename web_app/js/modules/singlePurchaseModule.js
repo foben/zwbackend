@@ -18,13 +18,21 @@ define(["jquery", "jqplot", "jqplot.pieRenderer"],
 				          showDataLabels: true
 				        }
 			      	},
-			      	legend: { show:true, location: 'e' }
+			      	legend: { show:true, location: 's', placement: "outside" }
 				});
+
+				var fixLegend = function(){
+					var text = jQuery("table[class='jqplot-table-legend']").html();
+					jQuery('#legendContainer').html(text);
+					jQuery("table[class='jqplot-table-legend']").html(''); 
+				}
 
 				$(window).resize(function() {
 			    	plot1.replot( { resetAxes: false } );
+			    	fixLegend();
 				});
 
+				fixLegend();
 			});
     	}
 
