@@ -49,6 +49,19 @@ require(["signals", "hasher", "crossroads", "mustache", "jquery"], function(sign
 	crossroads.addRoute('purchases', function(){
 		//$.getJSON("data/purchasesTest1.json", function(data){
 		$.getJSON("/purchases/month", function(data){
+            data.purchaseslist.sort(function(a, b){
+                var year1 = parseInt(a.year);
+                var month1 = parseInt(a.month);
+                var year2 = parseInt(b.year);
+                var month2 = parseInt(b.month);
+
+                if(year1 == year2){
+                    return month1 < month2 ? 1 : -1;
+                }else{
+                    return year1 < year2 ? 1 : -1;
+                }
+            });
+
 			$.get( "templates/purchases.html", function( template ) {
 				var htmlData = mustache.to_html(template, data);
 				$( "#content-main" ).html( htmlData );
@@ -81,36 +94,8 @@ require(["signals", "hasher", "crossroads", "mustache", "jquery"], function(sign
 	hasher.initialized.add(parseHash); //parse initial hash
 	hasher.changed.add(parseHash); //parse hash changes
 	hasher.init(); //start listening for history change
-	 
-	//update URL fragment generating new history record
-	// hasher.setHash('lorem/ipsum');
 });
 
 require(["jquery", "jquery.bootstrap"], function ($) {
 
 });
-
-/*
-require(["mustache"], function(mustache){
-	var person = {
-	    firstName: "Christophe",
-	    lastName: "Coenraets",
-	    blogURL: "http://coenraets.org"
-	};
-	var template = "<h1>{{firstName}} {{lastName}}</h1>Blog: {{blogURL}}";
-	var html = mustache.to_html(template, person);
-	alert(html)
-});
-*/
-
-/*
-require(["modules/mainPageModule"], function(testModule){
-	testModule.doSomething();
-});
-
-require(["jquery", "jqplot", "jqplot.dateAxisRenderer", "jqplot.canvasAxisLabelRenderer"], function($){
-
-});
-*/
-
-
