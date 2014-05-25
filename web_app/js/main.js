@@ -56,11 +56,8 @@ require(["signals", "hasher", "crossroads", "mustache", "jquery"], function(sign
                 var month2 = parseInt(b.month);
 
                 if(year1 == year2){
-                    console.log("year")
-                    console.log("returning " + month1 < month2 ? 1 : -1);
                     return month1 < month2 ? 1 : -1;
                 }else{
-                    console.log("returning " + year1 < year2 ? 1 : -1);
                     return year1 < year2 ? 1 : -1;
                 }
             });
@@ -97,36 +94,8 @@ require(["signals", "hasher", "crossroads", "mustache", "jquery"], function(sign
 	hasher.initialized.add(parseHash); //parse initial hash
 	hasher.changed.add(parseHash); //parse hash changes
 	hasher.init(); //start listening for history change
-	 
-	//update URL fragment generating new history record
-	// hasher.setHash('lorem/ipsum');
 });
 
 require(["jquery", "jquery.bootstrap"], function ($) {
 
 });
-
-/*
-require(["mustache"], function(mustache){
-	var person = {
-	    firstName: "Christophe",
-	    lastName: "Coenraets",
-	    blogURL: "http://coenraets.org"
-	};
-	var template = "<h1>{{firstName}} {{lastName}}</h1>Blog: {{blogURL}}";
-	var html = mustache.to_html(template, person);
-	alert(html)
-});
-*/
-
-/*
-require(["modules/mainPageModule"], function(testModule){
-	testModule.doSomething();
-});
-
-require(["jquery", "jqplot", "jqplot.dateAxisRenderer", "jqplot.canvasAxisLabelRenderer"], function($){
-
-});
-*/
-
-
