@@ -56,7 +56,10 @@ insert into category (name, parentid) values
 ("Fisch", null),
 ("Backwaren", null),
 ("Käse", null),
-("Gemüse", null);
+("Gemüse", null),
+("Getränk", null),
+("Nüsse", null),
+("Nudeln", null);
 
 create table mappings (
     id integer primary key autoincrement,
@@ -77,3 +80,30 @@ insert into mappings (item, categoryid) values
 ("CHERRYTUMATE BIO", 5),
 ("MEHRKDNSBHNITTE", 3),
 ("APFEL SCIFRESH", 1);
+
+-- dummy Daten
+insert into store (name) values ('Tengelmann');
+insert into store (name) values ('Edeka');
+insert into store (name) values ('Kaufland');
+insert into store (name) values ('Penny');
+insert into store (name) values ('Netto');
+
+insert into mappings (item, categoryid) values ("BIONADE", 6);
+insert into mappings (item, categoryid) values ("MANDELN", 7);
+insert into mappings (item, categoryid) values ("ZITRONE", 1);
+insert into mappings (item, categoryid) values ("ZWIEBEL", 5);
+insert into mappings (item, categoryid) values ("PAPRIKA", 5);
+insert into mappings (item, categoryid) values ("BANANE", 1);
+insert into mappings (item, categoryid) values ("FORELLE", 2);
+insert into mappings (item, categoryid) values ("SCHNITTLAUCH", 5);
+insert into mappings (item, categoryid) values ("ANANAS", 1);
+insert into mappings (item, categoryid) values ("RIGATONI", 8);
+insert into mappings (item, categoryid) values ("SPAGHETTI", 8);
+insert into mappings (item, categoryid) values ("ROGGENBROT", 3);
+insert into mappings (item, categoryid) values ("DINKELSEMMELN", 3);
+insert into mappings (item, categoryid) values ("CAMEMBERT", 4);
+insert into mappings (item, categoryid) values ("TILSITER", 4);
+insert into mappings (item, categoryid) values ("EDAMER", 4);
+insert into mappings (item, categoryid) values ("GOUDA", 4);
+insert into mappings (item, categoryid) values ("SCHMELZKES", 4);
+insert into mappings (item, categoryid) values ("PFIRSISCH", 1);
