@@ -58,6 +58,7 @@ insert into category (name, parentid) values
 ("Käse", null),
 ("Gemüse", null);
 
+drop table if exists mappings;
 create table mappings (
     id integer primary key autoincrement,
     item text not null,
