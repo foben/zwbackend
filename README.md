@@ -9,20 +9,24 @@ Installation
 Add a Proxy to /etc/apache2/sites-enabled/000-default.conf
 
     ProxyPass /zettelwirtschaft !
-    ProxyPass / http://ec2-54-76-99-61.eu-west-1.compute.amazonaws.com/
-    ProxyPassReverse / http://ec2-54-76-99-61.eu-west-1.compute.amazonaws.com/
+    ProxyPass / http://localhost:5000/
+    ProxyPassReverse / http://localhost:5000/
     
 Copy static content to apache folder:
 
     sudo cp -a web_app/* /var/www/html/zettelwirtschaft/
 
+1) Install dependencies:
+    
+    sudo pip install pytesseract
+    sudo pip install Flask
 
-1) Initialize a database from a python shell:
+2) Initialize a database from a python shell:
 
     >>> from zwbackend import db
     >>> db.init_db()
 
-2) Run the server
+3) Run the server
 
     $ python runserver.py
     
