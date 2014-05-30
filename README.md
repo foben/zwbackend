@@ -16,16 +16,20 @@ Copy static content to apache folder:
 
     sudo cp -a web_app/* /var/www/html/zettelwirtschaft/
 
-1) Install dependencies:
+1) Install python dependencies:
     
     sudo pip install pytesseract
     sudo pip install Flask
 
-2) Create the database with the demo data:
+2) Install tesseract OCR
+
+   sudo apt-get install tesseract-ocr
+
+3) Create the database with the demo data:
 
     python create_db.py
 
-3) Run the server
+4) Run the server
 
     $ python runserver.py
     
