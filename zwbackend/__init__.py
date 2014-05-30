@@ -7,8 +7,7 @@ from flask import Flask, request, session, g, redirect, url_for, abort, \
 app = Flask(__name__)
 app.config.from_object(__name__)
 
-from zwbackend import purchase, item, category, helper
-from ocr_reader import ReweReceiptReader
+from zwbackend import purchase, item, category, helper, ocr_reader
 
 app.config.update(dict(
     DATABASE=os.path.join(app.root_path, 'zw.db'),
@@ -57,16 +56,6 @@ def get_categories_by_month(year, month):
     result = category.get_categories_by_month(year, month)
     return jsonify(result)
 
-def do_ocr(filename):
-    app.logger.debug("Filename: {}".format(filename))
-    rreader = ReweReceiptReader(filename)
-    store = rreader.getStoreName()
-    items = rreader.getReceiptItems()
-    timestamp = rreader.getPurchaseDate()
-    purchase.create_purchase_from_zettel(timestamp, store, items) 
-    result = {'store': store, 'time': timestamp, 'items': items}
-    return jsonify(result)
-
 @app.route('/shoppinglist', methods=['GET', 'POST'])
 def upload_image():
     im = request.form['image']
@@ -74,14 +63,14 @@ def upload_image():
     fh = open(fname, "wb")
     fh.write(im.decode('base64'))
     fh.close()
-    return do_ocr(fname), 200
+    return ocr_reader.do_ocr(fname), 200
 
 @app.route('/upload', methods=['GET', 'POST'])
 def multipart_form_upload_image():
     fs = request.files['shoppinglist']
     fname = helper.get_upload_file_name(fs.filename)
     fs.save(fname)
-    return do_ocr(fname), 200
+    return ocr_reader.do_ocr(fname), 200
 
 @app.route('/categories')
 def get_categories():

@@ -1,10 +1,21 @@
 import Image
 import pytesseract
 import re
-import sys
-import time
-import datetime
-import subprocess
+import sys, subprocess
+import time, datetime
+
+from flask import jsonify
+
+from zwbackend import purchase
+
+def do_ocr(filename):
+    rreader = ReweReceiptReader(filename)
+    store = rreader.getStoreName()
+    items = rreader.getReceiptItems()
+    timestamp = rreader.getPurchaseDate()
+    purchase.create_purchase_from_zettel(timestamp, store, items) 
+    result = {'store': store, 'time': timestamp, 'items': items}
+    return jsonify(result)
 
 class DummyReceiptReader:
     receiptString = ''
