@@ -22,8 +22,8 @@ Copy static content to apache folder:
     sudo pip install Flask
 
 2) Install tesseract OCR
-
-   sudo apt-get install tesseract-ocr
+    
+    sudo apt-get install tesseract-ocr
 
 3) Create the database with the demo data:
 
