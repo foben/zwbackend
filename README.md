@@ -21,10 +21,9 @@ Copy static content to apache folder:
     sudo pip install pytesseract
     sudo pip install Flask
 
-2) Initialize a database from a python shell:
+2) Create the database with the demo data:
 
-    >>> from zwbackend import db
-    >>> db.init_db()
+    python create_db.py
 
 3) Run the server
 
