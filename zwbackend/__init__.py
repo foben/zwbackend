@@ -1,6 +1,4 @@
 import os
-import calendar
-import time
 import logging
 import json
 from flask import Flask, request, session, g, redirect, url_for, abort, \
@@ -9,7 +7,7 @@ from flask import Flask, request, session, g, redirect, url_for, abort, \
 app = Flask(__name__)
 app.config.from_object(__name__)
 
-from zwbackend import purchase, item, category
+from zwbackend import purchase, item, category, helper
 from ocr_reader import ReweReceiptReader
 
 app.config.update(dict(
@@ -21,8 +19,8 @@ app.config.update(dict(
 ))
 
 @app.route('/')
-def hello_world():
-    return '<h1>ZW Backend live!</h1>'
+def index():
+    return render_template('index.html')
 
 @app.route('/items')
 def get_all_items():
@@ -66,15 +64,23 @@ def do_ocr(filename):
     items = rreader.getReceiptItems()
     timestamp = rreader.getPurchaseDate()
     purchase.create_purchase_from_zettel(timestamp, store, items) 
-    return "success"
+    result = {'store': store, 'time': timestamp, 'items': items}
+    return jsonify(result)
 
 @app.route('/shoppinglist', methods=['GET', 'POST'])
 def upload_image():
-    fname = 'uploads/upload_' + str(calendar.timegm(time.gmtime())) + '.png'
     im = request.form['image']
+    fname = helper.get_upload_file_name(im)
     fh = open(fname, "wb")
     fh.write(im.decode('base64'))
     fh.close()
+    return do_ocr(fname), 200
+
+@app.route('/upload', methods=['GET', 'POST'])
+def multipart_form_upload_image():
+    fs = request.files['shoppinglist']
+    fname = helper.get_upload_file_name(fs.filename)
+    fs.save(fname)
     return do_ocr(fname), 200
 
 @app.route('/categories')
