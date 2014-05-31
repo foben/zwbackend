@@ -6,13 +6,19 @@ import time, datetime
 
 from flask import jsonify
 
-from zwbackend import purchase
+from zwbackend import purchase, ocr
 
 def do_ocr(filename):
-    rreader = ReweReceiptReader(filename)
+    # 1. OCR
+    reader = ocr.OcrReader()
+    #reader = ocr.PreprocessingOcrReader()
+    non_empty_lines = reader.get_non_empty_lines(filename)
+    # 2. Information extraction using a receipt reader
+    rreader = ReweReceiptReader(non_empty_lines)
     store = rreader.getStoreName()
     items = rreader.getReceiptItems()
     timestamp = rreader.getPurchaseDate()
+    # 3. Persisting purchase to db
     purchase.create_purchase_from_zettel(timestamp, store, items) 
     result = {'store': store, 'time': timestamp, 'items': items}
     return jsonify(result)
@@ -21,16 +27,8 @@ class DummyReceiptReader:
     receiptString = ''
     unparsedData = []
 
-    def __init__(self, receiptImage):
-        self.receiptString = pytesseract.image_to_string(Image.open(receiptImage), 'deu')
-        self._preprocess()
-
-    def _preprocess(self):
-        unparsedData = re.split("\n", self.receiptString)
-        for item in unparsedData:
-            if item != "":
-                self.unparsedData.append(item)
-        #print self.unparsedData
+    def __init__(self, non_empty_lines):
+        self.unparsedData = non_empty_lines
 
     def getStoreName(self):
         if len(self.unparsedData) == 0:
@@ -82,17 +80,8 @@ class ReweReceiptReader:
     #receiptString = ""
     #unparsedData = []
 
-    def __init__(self, receiptImage):
-        self.receiptString = pytesseract.image_to_string(Image.open(receiptImage))
-        self.unparsedData = []
-        self._preprocess()
-
-    def _preprocess(self):
-        unparsedData = re.split("\n", self.receiptString)
-        for item in unparsedData:
-            if item != "":
-                self.unparsedData.append(item)
-        #print self.unparsedData
+    def __init__(self, non_empty_lines):
+        self.unparsedData = non_empty_lines
 
     def status(self):
         for datum in self.unparsedData:
@@ -156,21 +145,8 @@ class ReweReceiptReader2:
     #receiptString = ""
     #unparsedData = []
 
-    def __init__(self, receiptImage):
-
-        ca = subprocess.call(["scantailor-cli", receiptImage + " --rotate=90.0 -l=1.5 -o /home/ubuntu/zwbackend/receipts/"])
-        print ca
-        self.receiptString = pytesseract.image_to_string(Image.open(receiptImage[:-3] + "tif"))
-
-        self.unparsedData = []
-        self._preprocess()
-
-    def _preprocess(self):
-        unparsedData = re.split("\n", self.receiptString)
-        for item in unparsedData:
-            if item != "":
-                self.unparsedData.append(item)
-        #print self.unparsedData
+    def __init__(self, non_empty_lines):
+        self.unparsedData = non_empty_lines
 
     def status(self):
         for datum in self.unparsedData:
