@@ -7,7 +7,7 @@ from flask import Flask, request, session, g, redirect, url_for, abort, \
 app = Flask(__name__)
 app.config.from_object(__name__)
 
-from zwbackend import purchase, item, category, helper, ocr_reader
+from zwbackend import purchase, item, category, helper, receipt
 
 app.config.update(dict(
     DATABASE=os.path.join(app.root_path, 'zw.db'),
@@ -56,6 +56,11 @@ def get_categories_by_month(year, month):
     result = category.get_categories_by_month(year, month)
     return jsonify(result)
 
+def extract_and_save_receipt(filename):
+    r = receipt.extract_from_image(filename)
+    purchase.save_purchase_from_zettel(r) 
+    return r
+
 @app.route('/shoppinglist', methods=['GET', 'POST'])
 def upload_image():
     im = request.form['image']
@@ -63,14 +68,14 @@ def upload_image():
     fh = open(fname, "wb")
     fh.write(im.decode('base64'))
     fh.close()
-    return ocr_reader.do_ocr(fname), 200
+    return extract_and_save_receipt(fname).to_json(), 200
 
 @app.route('/upload', methods=['GET', 'POST'])
 def multipart_form_upload_image():
     fs = request.files['shoppinglist']
     fname = helper.get_upload_file_name(fs.filename)
     fs.save(fname)
-    return ocr_reader.do_ocr(fname), 200
+    return extract_and_save_receipt(fname).to_json(), 200
 
 @app.route('/categories')
 def get_categories():

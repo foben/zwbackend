@@ -1,6 +1,8 @@
 from zwbackend import db, helper
 from zwbackend import app
 from zwbackend import item
+from zwbackend import receipt
+
 import datetime
 
 def get_all_purchases():
@@ -57,6 +59,9 @@ def get_store_by_name(storename):
     if len(rows) < 1:
         return None
     return rows[0]['id']
+
+def save_purchase_from_zettel(receipt):
+    return create_purchase_from_zettel(receipt.timestamp, receipt.store, receipt.items)
 
 def create_purchase_from_zettel(timestamp, storename, items):
     app.logger.debug("Create purchase from zettel")

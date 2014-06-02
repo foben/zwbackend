@@ -4,25 +4,6 @@ import re
 import sys, subprocess
 import time, datetime
 
-from flask import jsonify
-
-from zwbackend import purchase, ocr
-
-def do_ocr(filename):
-    # 1. OCR
-    reader = ocr.OcrReader()
-    #reader = ocr.PreprocessingOcrReader()
-    non_empty_lines = reader.get_non_empty_lines(filename)
-    # 2. Information extraction using a receipt reader
-    rreader = ReweReceiptReader(non_empty_lines)
-    store = rreader.getStoreName()
-    items = rreader.getReceiptItems()
-    timestamp = rreader.getPurchaseDate()
-    # 3. Persisting purchase to db
-    purchase.create_purchase_from_zettel(timestamp, store, items) 
-    result = {'store': store, 'time': timestamp, 'items': items}
-    return jsonify(result)
-
 class DummyReceiptReader:
     receiptString = ''
     unparsedData = []
