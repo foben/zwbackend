@@ -11,13 +11,18 @@ Add a Proxy to /etc/apache2/sites-enabled/000-default.conf
     ProxyPass /zettelwirtschaft !
     ProxyPass / http://localhost:5000/
     ProxyPassReverse / http://localhost:5000/
+
+Restart Apache:
+
+    sudo service apache2 restart
     
 Copy static content to apache folder:
 
     sudo cp -a web_app/* /var/www/html/zettelwirtschaft/
 
-1) Install python dependencies:
+1) Install python and module dependencies:
     
+    sudo apt-get install python-pip python-dev python-imaging
     sudo pip install pytesseract
     sudo pip install Flask
 
@@ -31,6 +36,6 @@ Copy static content to apache folder:
 
 4) Run the server
 
-    $ python runserver.py
+    python runserver.py
     
 
