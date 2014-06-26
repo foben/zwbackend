@@ -1,5 +1,6 @@
 import os
 import logging
+import calendar, time
 import json
 from flask import Flask, request, session, g, redirect, url_for, abort, \
         render_template, flash, jsonify, make_response
@@ -63,8 +64,8 @@ def extract_and_save_receipt(filename):
 
 @app.route('/shoppinglist', methods=['GET', 'POST'])
 def upload_image():
+    fname = 'uploads/upload_' + str(calendar.timegm(time.gmtime())) + '.png'
     im = request.form['image']
-    fname = helper.get_upload_file_name(im)
     fh = open(fname, "wb")
     fh.write(im.decode('base64'))
     fh.close()
